@@ -15,9 +15,9 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.{GsonHelper, Mth}
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.effect.{MobEffect, MobEffectInstance}
-import net.minecraft.world.entity.{Entity, LivingEntity}
 import net.minecraft.world.entity.ai.attributes.{Attribute, AttributeModifier}
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.{Entity, LivingEntity}
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraftforge.registries.ForgeRegistries
@@ -256,7 +256,7 @@ class ForgeConditionalTrait (val id: ResourceLocation, val serializer: ITraitSer
 
 object ForgeConditionalTrait {
   final val SERIALIZER : ITraitSerializer[ForgeConditionalTrait] = new Serializer[ForgeConditionalTrait](
-    Soteriology.FORGE_CONDITIONAL_TRAIT,
+    Soteriology.FORGE_CONDITIONAL_ID,
     ForgeConditionalTrait.apply(_),
     ForgeConditionalTrait.deserializeJson,
     ForgeConditionalTrait.readFromNetwork,

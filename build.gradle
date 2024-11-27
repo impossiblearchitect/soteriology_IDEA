@@ -19,7 +19,8 @@ jarJar.enable()
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
-println "Scala: ${scala_version}, Scala3: ${scala3_version}, Cats: ${cats_version}, ScalableCatsForce: ${scalable_version}"
+println "Scala: ${scala_version}, Scala3: ${scala3_version}, Cats: ${cats_version}"
+println "kotori_scala loader version: ${scala3_version}-build-${scalable_build}"
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:
@@ -126,7 +127,15 @@ tasks.withType(ScalaCompile) {
             // "-Yexplicit-nulls"
             // "-Yretain-trees"
     ]
+//    classpath= sourceSets.main.compileClasspath
 }
+//tasks.withType(JavaCompile) {
+//    classpath += files(sourceSets.main.scala.classesDirectory)
+//}
+
+
+tasks.compileScala.classpath = sourceSets.main.compileClasspath
+tasks.compileJava.classpath += files(sourceSets.main.scala.classesDirectory)
 
 def gpr_creds = {
     username = property('gpr.username')
@@ -165,9 +174,9 @@ repositories {
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
-    // flatDir {
-    //     dir 'libs'
-    // }
+//     flatDir {
+//         dir 'libs'
+//     }
 }
 
 dependencies {
@@ -207,9 +216,10 @@ dependencies {
     compileOnly(group: "org.scala-lang", name: "scala-library", version: scala_version)
     compileOnly(group: "org.scala-lang", name: "scala3-library_3", version: scala3_version)
     compileOnly(group: "org.typelevel", name: "cats-core_3", version: cats_version)
-    runtimeOnly(group: "com.kotori316", name: "ScalableCatsForce".toLowerCase(), version: scalable_version, classifier: "with-library") {
+    runtimeOnly(group: "com.kotori316", name: "ScalableCatsForce".toLowerCase(), version: "${scala3_version}-build-${scalable_build}", classifier: "with-library") {
         transitive(false)
     }
+
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.11.0+1.20.1")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.11.0+1.20.1:api")
@@ -217,7 +227,7 @@ dependencies {
     implementation fg.deobf("net.silentchaos512:silent-lib:9.0.0") {transitive = false}
     implementation fg.deobf("net.silentchaos512:silent-utils:1.0.7") {transitive = false}
     implementation fg.deobf("curse.maven:primal-magick-545271:4965092") {transitive = false}
-    implementation fg.deobf("curse.maven:ars-nouveau-401955:5894609") {transitive = false}
+//    implementation fg.deobf("curse.maven:ars-nouveau-401955:5894609") {transitive = false}
     implementation fg.deobf("curse.maven:apotheosis-313970:5753183") {transitive = false}
     implementation fg.deobf("curse.maven:placebo-283644:5414631") {transitive = false}
 }
@@ -230,7 +240,7 @@ tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
             forge_version: forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
+            loader_version_range: "[${scala3_version},)",
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors: mod_authors, mod_description: mod_description,
     ]

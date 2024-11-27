@@ -48,21 +48,20 @@ object Soteriology {
   final val LOGGER = LogManager.getLogger.!
 
   final val MANA_EFFICIENCY_ID = ResourceLocation(MOD_ID, "mana_efficiency")
-  final val MANA_EFFICIENCY = ItemStats.register(SplitItemStat(Soteriology.MANA_EFFICIENCY_ID, 0f, 0f, 100f, Color.DODGERBLUE,
-    ImmutableMap.of[GearType, java.lang.Float](
-      GearType.HELMET, 4f,
-      GearType.CHESTPLATE, 6f,
-      GearType.LEGGINGS, 6f,
-      GearType.BOOTS, 4f
-    ),
-    ItemStat.Properties().affectedByGrades(true).nn.synergyApplies()
-  ))
+//  final val MANA_EFFICIENCY = ItemStats.register(SplitItemStat(Soteriology.MANA_EFFICIENCY_ID, 0f, 0f, 100f, Color.DODGERBLUE,
+//    ImmutableMap.of[GearType, java.lang.Float](
+//      GearType.HELMET, 4f,
+//      GearType.CHESTPLATE, 6f,
+//      GearType.LEGGINGS, 6f,
+//      GearType.BOOTS, 4f
+//    ), (new ItemStat.Properties()).affectedByGrades(true).synergyApplies()
+//  ))
 
   final val WARDABLE_ID = ResourceLocation(PrimalMagick.MODID, "well_of_magick")
   final val HARMONIC_ID = ResourceLocation(MOD_ID, "harmonic")
 
-  final val FORGE_CONDITIONAL_TRAIT = ResourceLocation(MOD_ID, "forge_conditional")
-  GearApi.registerTraitSerializer(ForgeConditionalTrait.SERIALIZER)
+  final val FORGE_CONDITIONAL_ID = ResourceLocation(MOD_ID, "forge_conditional")
+//  GearApi.registerTraitSerializer(ForgeConditionalTrait.SERIALIZER)
 
   final val registerTrait: ITrait => ITrait =
     val lookup = MethodHandles.lookup().nn
@@ -75,7 +74,7 @@ object Soteriology {
   // println("Dumping classes:")
   // MAPPING_FILE.getClasses().forEach(println)
   // println("Dumping methods of net.minecraft.world.entity.Entity:")
-  // MAPPING_FILE.getClass("net.minecraft.world.entity.Entity".replace('.', '/')).getMethods().forEach(println)
+  // MAPPING_FILE.getClass("net.minecZraft.world.entity.Entity".replace('.', '/')).getMethods().forEach(println)
 
   val BLOCKS: DeferredRegister[Block] = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID).nn
   val ITEMS: DeferredRegister[Item] = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID).nn

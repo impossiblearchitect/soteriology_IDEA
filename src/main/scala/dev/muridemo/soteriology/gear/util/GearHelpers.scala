@@ -102,7 +102,6 @@ object GearHelpers:
     def isSGearWardable = stack.isSilentGear && stack.hasTrait(Soteriology.WARDABLE_ID)
 
 
-  object statics:
-    def passiveCostModifiers(player: Player, source: Source) = player.passiveCostModifiers(source)
-    def isSGearWardable(stack: ItemStack) = stack.isSilentGear && stack.hasTrait(Soteriology.WARDABLE_ID)
+  def static$passiveCostModifiers(player: Player, source: Source) = player.passiveCostModifiers(source)
+  def static$isSGearWardable(stack: ItemStack) = stack.isSilentGear && stack.hasTrait(Soteriology.WARDABLE_ID)
    
