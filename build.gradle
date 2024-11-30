@@ -79,6 +79,9 @@ minecraft {
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}\\createSrgToMcp\\output.srg"
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -89,15 +92,11 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -227,11 +226,20 @@ dependencies {
     implementation fg.deobf("net.silentchaos512:silent-lib:9.0.0") {transitive = false}
     implementation fg.deobf("net.silentchaos512:silent-utils:1.0.7") {transitive = false}
     implementation fg.deobf("curse.maven:primal-magick-545271:4965092") {transitive = false}
-//    implementation fg.deobf("curse.maven:ars-nouveau-401955:5894609") {transitive = false}
+    implementation fg.deobf("curse.maven:ars-nouveau-401955:5894609") {transitive = false}
     implementation fg.deobf("curse.maven:apotheosis-313970:5753183") {transitive = false}
     implementation fg.deobf("curse.maven:placebo-283644:5414631") {transitive = false}
 }
 
+mixin {
+    add sourceSets.main, 'mixins.soteriology.refmap.json'
+    config 'mixins.soteriology.json'
+    debug {
+        verbose true
+        export true
+        countInjections true
+    }
+}
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.

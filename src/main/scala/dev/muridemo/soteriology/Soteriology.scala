@@ -48,20 +48,20 @@ object Soteriology {
   final val LOGGER = LogManager.getLogger.!
 
   final val MANA_EFFICIENCY_ID = ResourceLocation(MOD_ID, "mana_efficiency")
-//  final val MANA_EFFICIENCY = ItemStats.register(SplitItemStat(Soteriology.MANA_EFFICIENCY_ID, 0f, 0f, 100f, Color.DODGERBLUE,
-//    ImmutableMap.of[GearType, java.lang.Float](
-//      GearType.HELMET, 4f,
-//      GearType.CHESTPLATE, 6f,
-//      GearType.LEGGINGS, 6f,
-//      GearType.BOOTS, 4f
-//    ), (new ItemStat.Properties()).affectedByGrades(true).synergyApplies()
-//  ))
+  final val MANA_EFFICIENCY = ItemStats.register(SplitItemStat(Soteriology.MANA_EFFICIENCY_ID, 0f, 0f, 100f, Color.DODGERBLUE,
+    ImmutableMap.of[GearType, java.lang.Float](
+      GearType.HELMET, 4f,
+      GearType.CHESTPLATE, 6f,
+      GearType.LEGGINGS, 6f,
+      GearType.BOOTS, 4f
+    ), (new ItemStat.Properties()).affectedByGrades(true).synergyApplies()
+  ))
 
   final val WARDABLE_ID = ResourceLocation(PrimalMagick.MODID, "well_of_magick")
   final val HARMONIC_ID = ResourceLocation(MOD_ID, "harmonic")
 
   final val FORGE_CONDITIONAL_ID = ResourceLocation(MOD_ID, "forge_conditional")
-//  GearApi.registerTraitSerializer(ForgeConditionalTrait.SERIALIZER)
+  GearApi.registerTraitSerializer(ForgeConditionalTrait.SERIALIZER)
 
   final val registerTrait: ITrait => ITrait =
     val lookup = MethodHandles.lookup().nn
@@ -74,23 +74,23 @@ object Soteriology {
   // println("Dumping classes:")
   // MAPPING_FILE.getClasses().forEach(println)
   // println("Dumping methods of net.minecraft.world.entity.Entity:")
-  // MAPPING_FILE.getClass("net.minecZraft.world.entity.Entity".replace('.', '/')).getMethods().forEach(println)
+  // MAPPING_FILE.getClass("net.minecraft.world.entity.Entity".replace('.', '/')).getMethods().forEach(println)
 
   val BLOCKS: DeferredRegister[Block] = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID).nn
   val ITEMS: DeferredRegister[Item] = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID).nn
   val BLOCK_ENTITIES: DeferredRegister[BlockEntityType[?]] = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID).nn
   val CREATIVE_MODE_TABS: DeferredRegister[CreativeModeTab] = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID).nn
 
-  val SUPERIOR_REFORGING_TABLE = BLOCKS.register(
+  val SUPERIOR_REFORGING_TABLE: RegistryObject[ReforgingTableBlock] = BLOCKS.register(
     "superior_reforging_table",
     () => ReforgingTableBlock(BlockBehaviour.Properties.of().nn.requiresCorrectToolForDrops().nn.strength(5f, 1200f), 7)
   )
-  val SUPERIOR_REFORGING_TABLE_ITEM = ITEMS.register(
+  val SUPERIOR_REFORGING_TABLE_ITEM: RegistryObject[BlockItem] = ITEMS.register(
     "superior_reforging_table",
     () => new BlockItem(SUPERIOR_REFORGING_TABLE.get(), new Item.Properties().rarity(Rarity.EPIC))
   )
 
-  final val SGEAR_GENERICS =
+  final val SGEAR_GENERICS: List[RegistryObject[Item]] =
     ("helmet" :: "chestplate" :: "leggings" :: "boots" :: Nil).map {
       name => RegistryObject.create(new ResourceLocation("silentgear", name), ForgeRegistries.ITEMS)
     }
@@ -137,8 +137,8 @@ object Soteriology {
 
   // Add the example block item to the building blocks tab
   private def addCreative(event: BuildCreativeModeTabContentsEvent): Unit = {
-//    if (event.getTabKey == CreativeModeTabs.BUILDING_BLOCKS)
-//      event.accept(EXAMPLE_BLOCK_ITEM)
+    if (event.getTabKey == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+      event.accept(SUPERIOR_REFORGING_TABLE_ITEM)
   }
 
   // You can use SubscribeEvent and let the Event Bus discover methods to call
